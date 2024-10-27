@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AssemblySearchPaths>$(AssemblySearchPaths);$(GDWeavePath)/core</AssemblySearchPaths>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="GDWeave">
+			<HintPath>E:\Steam\steamapps\common\WEBFISHING\GDWeave\core\GDWeave.dll</HintPath>
+		</Reference>
+		<Reference Include="Serilog">
+			<HintPath>E:\Steam\steamapps\common\WEBFISHING\GDWeave\core\Serilog.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="manifest.json" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(GDWeavePath)' != ''">
+		<Exec Command="xcopy /Y /I &quot;$(TargetDir)&quot; &quot;$(GDWeavePath)/mods/$(AssemblyName)&quot;" Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'" />
+	</Target>
+
+</Project>
