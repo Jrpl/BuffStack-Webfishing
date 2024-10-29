@@ -44,6 +44,27 @@ public class PlayerPatch : IScriptMod
             t => t.Type is TokenType.OpAssign
         ]);
 
+        //  "speed":
+        //      boost_timer =
+        var speedMatch = new MultiTokenWaiter([
+            t => t is ConstantToken { Value: StringVariant { Value: "speed" } },
+            t => t.Type is TokenType.Colon,
+            t => t.Type is TokenType.Newline,
+            t => t is IdentifierToken { Name: "boost_timer" },
+            t => t.Type is TokenType.OpAssign
+        ]);
+
+        //  "speed_burst":
+        //      boost_timer =
+        var speedBurstMatch = new MultiTokenWaiter([
+            t => t is ConstantToken { Value: StringVariant { Value: "speed_burst" } },
+            t => t.Type is TokenType.Colon,
+            t => t.Type is TokenType.Newline,
+            t => t is IdentifierToken { Name: "boost_timer" },
+            t => t.Type is TokenType.OpAssign
+        ]);
+
+
         var newlineConsumer = new TokenConsumer(t => t.Type is TokenType.Newline);
 
         foreach (var token in tokens)
@@ -89,6 +110,30 @@ public class PlayerPatch : IScriptMod
                 yield return new IdentifierToken("catch_drink_timer");
                 yield return new Token(TokenType.OpAdd);
                 yield return new ConstantToken(new IntVariant(18000));
+
+                // Reset since this matches multiple times
+                catchDeluxeMatch.Reset();
+                // Consume the "disabled or refreshing" and wait until newline
+                newlineConsumer.SetReady();
+            }
+            else if (speedMatch.Check(token))
+            {
+                yield return token;
+                yield return new IdentifierToken("boost_timer");
+                yield return new Token(TokenType.OpAdd);
+                yield return new ConstantToken(new IntVariant(18000));
+
+                // Reset since this matches multiple times
+                catchDeluxeMatch.Reset();
+                // Consume the "disabled or refreshing" and wait until newline
+                newlineConsumer.SetReady();
+            }
+            else if (speedBurstMatch.Check(token))
+            {
+                yield return token;
+                yield return new IdentifierToken("boost_timer");
+                yield return new Token(TokenType.OpAdd);
+                yield return new ConstantToken(new IntVariant(900));
 
                 // Reset since this matches multiple times
                 catchDeluxeMatch.Reset();
