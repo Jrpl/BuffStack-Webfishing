@@ -1,6 +1,6 @@
 # BuffStack-Webfishing
 
-A mod for Webfishing that allows the soda buff duration to be extended when drinking multiple sodas.
+A mod for Webfishing that allows the soda and slurpee buff duration to be extended when drinking multiple.
 
 # Installation
 
