@@ -1,0 +1,7 @@
+{
+  "name": "BuffStack",
+  "version_number": "1.1.0",
+  "website_url": "https://github.com/Jrpl/BuffStack-Webfishing",
+  "description": "Allows the soda and slurpee buff durations to be extended when drinking multiple.",
+  "dependencies": ["NotNet-GDWeave-2.0.13"]
+}
